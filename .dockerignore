@@ -1,0 +1,25 @@
+.git
+.gitignore
+.env
+.env.*
+*.md
+.DS_Store
+.docker
+docker-compose.yml
+docker-compose.*.yml
+
+# WordPress specific
+wp-core/*
+!wp-core/wp-content
+wp-core/wp-content/*
+!wp-core/wp-content/themes
+!wp-core/wp-content/plugins
+
+# Node/NPM (if you use them for theme development)
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Editor specific
+.vscode
