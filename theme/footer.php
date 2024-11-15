@@ -28,20 +28,20 @@
     					</div>
     					<button class="subscribe-btn js-send" data-route="{{ route('subscribe.store') }}">הרשמה</button>
     				</div>
-    				<div class="footer-contacts">
-    					<div class="footer-social">
-    						<a href="{{ $general->get('facebook') }}" target="_blank" aria-label="Facebook">
-
-    						</a>
-    						<a href="{{ $general->get('linkedin') }}" target="_blank" aria-label="LinkedIn">
-
-    						</a>
-    						<a href="{{ $general->get('whatsapp') }}" target="_blank" aria-label="WhatsApp">
-
-    						</a>
-    					</div>
-    					<a href="{{ $general->get('instagram') }}" class="footer-instagram" target="_blank">jammagency_design#</a>
-    				</div>
+                    <div class="footer-contacts">
+        				<div class="footer-social">
+           					<a href="https://www.facebook.com/profile.php?id=100075511464241" target="_blank" aria-label="Facebook">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/img/social/facebook.svg" alt="facebook" width="20" height="20">
+           					</a>
+           					<a href="https://www.linkedin.com/company/jam-agency/" target="_blank" aria-label="LinkedIn">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/img/social/linkedin.svg" alt="linkedin" width="20" height="20">
+           					</a>
+           					<a href="tel:+972509913755" aria-label="WhatsApp">
+                                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/img/social/whatsapp.svg" alt="whatsapp" width="20" height="20">
+           					</a>
+        				</div>
+        				<a href="https://www.instagram.com/explore/tags/jammagency_design/?img_index=1" class="footer-instagram" target="_blank">jammagency_design#</a>
+                    </div>
     			</div>
     			<div class="footer-nav">
      			<?php
@@ -58,7 +58,6 @@
     </div><!-- #page -->
     <script src="<?php echo get_template_directory_uri(); ?>/js/gsap.min.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/js/ScrollTrigger.min.js"></script>
-    <script type="module" src="<?php echo get_template_directory_uri(); ?>/js/app.js"></script>
 	<?php wp_footer(); ?>
 </body>
 </html>

@@ -221,6 +221,8 @@ body {
     font-size: 20px;
     line-height: 1.45;
     font-family: Heebo-Regular, sans-serif;
+    color: #f0f0f0;
+    background: #242424;
 }
 
 .page:after {
@@ -249,8 +251,6 @@ body {
 }
 
 #page {
-    color: #f0f0f0;
-    background: #242424;
 }
 
 .wrap {
@@ -318,7 +318,7 @@ body {
     background: #e45b9f;
 }
 
-.btn2 {
+.feedback-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -331,7 +331,7 @@ body {
     font-size: 20px;
 }
 
-.btn2:hover {
+.feedback-btn:hover {
     background-color: #c9508c;
 }
 
@@ -397,27 +397,27 @@ textarea::placeholder {
     width: 100%;
 }
 
-.input-error {
-    margin-top: 10px;
-    text-align: right;
-    font-size: 10px;
-    color: #ec1e2c;
-}
-
 .input-field {
     border-bottom: 1px solid #c3c3c3;
     padding-bottom: 6px;
 }
 
-.input-field.error {
+/* .input-error {
+    margin-top: 10px;
+    text-align: right;
+    font-size: 10px;
+    color: #ec1e2c;
+} */
+
+/*.input-field.error {
     border-color: #ff6651;
 }
 
 .input-field:focus {
     border-color: #fff;
-}
+} */
 
-.input-sizer {
+/* .input-sizer {
     position: relative;
     display: grid;
     width: 100%;
@@ -433,9 +433,9 @@ textarea::placeholder {
     color: #242424;
     font-size: 14px;
     line-height: 1.4;
-}
+} */
 
-.input-text {
+/* .input-text {
     overflow: hidden;
     resize: none;
     grid-area: 2/1;
@@ -443,7 +443,7 @@ textarea::placeholder {
     border: none;
     color: #242424;
     font-size: 14px;
-}
+} */
 
 .checkbox {
     display: inline-flex;
@@ -2132,7 +2132,7 @@ textarea::placeholder {
     margin-top: 24px;
 }
 
-.modalSuccess .btn2 {
+.modalSuccess .feedback-btn {
     max-width: 200px;
 }
 
@@ -2145,6 +2145,7 @@ textarea::placeholder {
 .modalTalk {
     max-width: 930px;
     color: #242424;
+    margin: 20px;
 }
 
 .modalTalk-inner {
@@ -2175,6 +2176,39 @@ textarea::placeholder {
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    .form-field {
+        width: 100%;
+
+        input,
+        textarea {
+            color: #242424;
+            font-size: 14px;
+            border-bottom: 1px solid #c3c3c3;
+            padding: 4px;
+        }
+
+        textarea {
+            resize: none;
+            overflow: hidden;
+        }
+
+        input:focus {
+            border-color: #242424;
+        }
+
+        .error input {
+            border-color: #ff6651;
+        }
+
+        small {
+            display: block;
+            margin-top: 10px;
+            text-align: right;
+            font-size: 10px;
+            color: #ec1e2c;
+        }
+    }
 }
 
 .modalTalk-contacts {
@@ -2198,16 +2232,11 @@ textarea::placeholder {
     font-family: Heebo-Medium, sans-serif;
 }
 
-.modalTalk .input-field {
-    color: #242424;
-    font-size: 14px;
-}
-
-.modalTalk .input-field:focus {
-    border-color: #242424;
-}
-
 @media screen and (max-width: 768px) {
+    .modalTalk {
+        margin: 10px;
+    }
+
     .modalTalk-inner {
         padding: 64px 16px 32px;
     }
@@ -2316,21 +2345,38 @@ textarea::placeholder {
     gap: 8px;
 }
 
-.case-nav {
-    padding: 52px 0 54px;
-}
-
-.case-nav .wrap {
+.nav-links {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+    padding: 52px 0 54px;
 
-.case-nav-link {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    color: #000;
+    .nav-previous,
+    .nav-next {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        a {
+            color: #000;
+            display: flex;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #000;
+
+            span {
+                dusplay: inlie-block;
+            }
+
+            img {
+            }
+        }
+    }
+
+    .nav-next {
+        margin-left: auto;
+    }
 }
 
 @media screen and (max-width: 1024px) {
@@ -2398,21 +2444,18 @@ textarea::placeholder {
         gap: 2px;
     }
 
-    .case-nav {
+    .nav-links {
         padding: 19px 0 70px;
-    }
 
-    .case-nav .wrap {
-        padding: 0 6px;
-    }
+        .nav-links {
+            padding: 0 6px;
 
-    .case-nav-link {
-        gap: 14px;
-        font-size: 14px;
-    }
-
-    .case-nav-link svg {
-        width: 28.4px;
+            .nav-previous,
+            .nav-next {
+                gap: 14px;
+                font-size: 14px;
+            }
+        }
     }
 }
 

@@ -1,6 +1,5 @@
 import { Slider } from "./slider.js"; // слайдер
 import { SideModal } from "./sideModal.js"; // бокове модальне вікно
-import "./send.js";
 import "./hero.js";
 
 document.addEventListener("DOMContentLoaded", function () {

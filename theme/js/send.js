@@ -1,242 +1,250 @@
-import { popupInfo } from './popupinfo.js'; // інформаційне модальне вікно
-import { ModalWindow } from './modal.js'; // модальне вікно
+import { popupInfo } from "./popupinfo.js"; // інформаційне модальне вікно
+import { ModalWindow } from "./modal.js"; // модальне вікно
+
+const errMessages = {
+  emptyField: "Fill in the field",
+  emptySelect: "Choose a value",
+  emptyPhoto: "error.empty_photo",
+  emptyBirthday: "error.empty_birthday",
+  invalidTel: "Invalid phone number",
+  invalidEmail: "Invalid E-mail",
+};
 
 const modal = new ModalWindow();
 
 /* Відправка форми
 ------------------------------------------------------- */
 function sendForm() {
-	const btn = document.querySelectorAll('.js-send');
+  const btn = document.querySelectorAll(".js-send");
 
-	if (! btn.length) {
-		return false;
-	}
+  if (!btn.length) {
+    return false;
+  }
 
-	btn.forEach((item) => {
-		item.addEventListener('click', (e) => {
-			e.preventDefault();
-			let params = Object.assign({}, item.dataset);
-			send(item, params);
-		});
-	});
+  btn.forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.preventDefault();
+      let params = Object.assign({}, item.dataset);
+      send(item, params);
+    });
+  });
 }
 
 sendForm();
 
-
 function send(btn, params) {
-	doubleClick(); // заборона відправки форми по двойному клику
-	let request = {};
-	const form = btn.closest('.js-form');
-	const token = document.querySelector('#page').dataset.token;
-	let errorForm = false; //true - заборона відправки форми
-	let inputsError = document.querySelectorAll('.input-error'); //тексти помилок
+  doubleClick(); // заборона відправки форми по двойному клику
+  let request = {};
+  const form = btn.closest(".js-form");
+  const token = document.querySelector("#page").dataset.token;
+  let errorForm = false; //true - заборона відправки форми
+  let inputsError = document.querySelectorAll(".input-error"); //тексти помилок
 
-	if (inputsError.length) {
-		inputsError.forEach((item) => {
-			item.remove();
-		});
-	}
-	
-	// текстові поля
-	const inputs = form.querySelectorAll('input, textarea');
-	if (inputs.length) {
-		inputs.forEach((item) => {
-			request[item.name] = item.value;
+  if (inputsError.length) {
+    inputsError.forEach((item) => {
+      item.remove();
+    });
+  }
 
-			if (! item.classList.contains('js-text')) {
-				request[item.name] = item.value;
-				if (emptyError(item, errMessages.emptyField, 'field')) {
-					return;
-				}
-			} else {
-				// редактор тексту
-				const content = tinyMCE.get('js-editor').getContent();
+  // текстові поля
+  const inputs = form.querySelectorAll("input, textarea");
+  if (inputs.length) {
+    inputs.forEach((item) => {
+      request[item.name] = item.value;
 
-				if (item.classList.contains('js-required') && removeHtmlTags(content) === '') {
-					errorText(item, errMessages.emptyField);
-					errorForm = true;
-					return errorForm;
-				}
+      if (!item.classList.contains("js-text")) {
+        request[item.name] = item.value;
+        if (emptyError(item, errMessages.emptyField, "field")) {
+          return;
+        }
+      } else {
+        // редактор тексту
+        const content = tinyMCE.get("js-editor").getContent();
 
-				request[item.name] = content;
-			}
-		});
-	}
+        if (
+          item.classList.contains("js-required") &&
+          removeHtmlTags(content) === ""
+        ) {
+          errorText(item, errMessages.emptyField);
+          errorForm = true;
+          return errorForm;
+        }
 
+        request[item.name] = content;
+      }
+    });
+  }
 
-	// випадаючі списки
-	const selects = form.querySelectorAll('.js-select');
-	if (selects.length) {
-		selects.forEach((item) => {
-			request[item.dataset.name] = item.dataset.value;
+  // випадаючі списки
+  const selects = form.querySelectorAll(".js-select");
+  if (selects.length) {
+    selects.forEach((item) => {
+      request[item.dataset.name] = item.dataset.value;
 
-			if (emptyError(item, errMessages.emptySelect)) {
-				return;
-			}
-		});
-	}
+      if (emptyError(item, errMessages.emptySelect)) {
+        return;
+      }
+    });
+  }
 
-	// радіо кнопки
-	const radio = form.querySelectorAll('.js-radio-group');
-	if (radio.length) {
-		radio.forEach((item) => {
-			request[item.dataset.name] = item.querySelector('.js-radio.checked').dataset.value;
-		});
-	}
+  // радіо кнопки
+  const radio = form.querySelectorAll(".js-radio-group");
+  if (radio.length) {
+    radio.forEach((item) => {
+      request[item.dataset.name] =
+        item.querySelector(".js-radio.checked").dataset.value;
+    });
+  }
 
-	//зображення
-	const img = form.querySelectorAll('.js-img');
-	if (img.length) {
-		img.forEach((item) => {
-			request[item.dataset.name] = item.dataset.value;
+  //зображення
+  const img = form.querySelectorAll(".js-img");
+  if (img.length) {
+    img.forEach((item) => {
+      request[item.dataset.name] = item.dataset.value;
 
-			if (emptyError(item, errMessages.emptyImage)) {
-				return;
-			}
-		});
-	}
+      if (emptyError(item, errMessages.emptyImage)) {
+        return;
+      }
+    });
+  }
 
-	// checkbox обробка персональних даних
-	const personalData = form.querySelector('.js-personalData');
-	if (personalData) {
-		personalData.classList.remove('error');
-		if (! personalData.classList.contains('checked')) {
-			personalData.classList.add('error');
-			errorText(personalData, errMessages.acceptTerms);
-			errorForm = true;
-		}
-	}		
+  // checkbox обробка персональних даних
+  const personalData = form.querySelector(".js-personalData");
+  if (personalData) {
+    personalData.classList.remove("error");
+    if (!personalData.classList.contains("checked")) {
+      personalData.classList.add("error");
+      errorText(personalData, errMessages.acceptTerms);
+      errorForm = true;
+    }
+  }
 
-	if (errorForm) {
-		return false;
-	}
+  if (errorForm) {
+    return false;
+  }
 
-	btn.classList.add('btn-loading');
-	
-	fetch(params.route, {
-		method: ('method' in params) ? params.method : 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			'X-CSRF-TOKEN': token
-		},
-		body: JSON.stringify(request)
-	}).then((response) => {
-		return response.json();
-	}).then((data) => {
-		btn.classList.remove('btn-loading');
-		
-		if (data.status === 'success') {
+  btn.classList.add("btn-loading");
 
-			// показати модальне вікно
-			if (data.modalShow) {
-				const modalId = ('modalId' in data) ? data.modalId : 'js-modalSuccess';
-				modal.openModalWindow(document.querySelector(`#${modalId}`));
+  fetch(params.route, {
+    method: "method" in params ? params.method : "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-TOKEN": token,
+    },
+    body: JSON.stringify(request),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      btn.classList.remove("btn-loading");
 
-				// показати email в модальному вікні
-				if ('email' in data) {
-					modalEmailShow(data.email);
-				}
-			}
+      if (data.status === "success") {
+        // показати модальне вікно
+        if (data.modalShow) {
+          const modalId = "modalId" in data ? data.modalId : "js-modalSuccess";
+          modal.openModalWindow(document.querySelector(`#${modalId}`));
 
-			// показати сповіщення
-			if (data.messageShow) {
-				new popupInfo(data.message);
-			}
+          // показати email в модальному вікні
+          if ("email" in data) {
+            modalEmailShow(data.email);
+          }
+        }
 
-			// очистка текстових полів форми
-			if (! data.inputsSaved) {
-				inputs.forEach((item) => {
-					if (! item.classList.contains('js-hidden')) {
-						item.value = '';
-					}
-				});
-			}
+        // показати сповіщення
+        if (data.messageShow) {
+          new popupInfo(data.message);
+        }
 
-			// редірект на іншу сторінку
-			if (data.redirect) {
-				window.location.href = data.route;
-			}
+        // очистка текстових полів форми
+        if (!data.inputsSaved) {
+          inputs.forEach((item) => {
+            if (!item.classList.contains("js-hidden")) {
+              item.value = "";
+            }
+          });
+        }
 
-			// відправка даних по API
-			if (data.sendDataAPI) {
-				const formStorage = document.querySelector('#js-formStorage');
-				formStorage.innerHTML = data.form;
-				formStorage.querySelector('form').submit();
-			}
+        // редірект на іншу сторінку
+        if (data.redirect) {
+          window.location.href = data.route;
+        }
 
-			// додати коментар
-			if ('comment' in data) {
-				commentAdd(Object.assign(data.comment, request));
-			}
+        // відправка даних по API
+        if (data.sendDataAPI) {
+          const formStorage = document.querySelector("#js-formStorage");
+          formStorage.innerHTML = data.form;
+          formStorage.querySelector("form").submit();
+        }
 
-			// заміна маршруту при зміні імені
-			if ('userRoute' in data) {
-				changeUsername(data.userRoute);
-			}
+        // додати коментар
+        if ("comment" in data) {
+          commentAdd(Object.assign(data.comment, request));
+        }
 
-		} else if (data.status === 'error') {
-			new popupInfo(data.message, true);
-		}
-	});
-	
-	
-	/* Заборона відправки форми по двойному клику
+        // заміна маршруту при зміні імені
+        if ("userRoute" in data) {
+          changeUsername(data.userRoute);
+        }
+      } else if (data.status === "error") {
+        new popupInfo(data.message, true);
+      }
+    });
+
+  /* Заборона відправки форми по двойному клику
 	------------------------------------------------------- */
-	function doubleClick() {
-		btn.disabled = true
-		
-		setTimeout(() => {
-			btn.disabled = false;
-		}, 1000);	
-	}
+  function doubleClick() {
+    btn.disabled = true;
 
+    setTimeout(() => {
+      btn.disabled = false;
+    }, 1000);
+  }
 
-	/* Перевірка на заповненість поля
+  /* Перевірка на заповненість поля
 	------------------------------------------------------- */
-	function emptyError(item, text, type = 'dataset') {
-		/*
+  function emptyError(item, text, type = "dataset") {
+    /*
 			dataset
 			field
 			checkbox
 		*/
 
-		item.classList.remove('error');
+    item.classList.remove("error");
 
-		let value;
+    let value;
 
-		if (type === 'dataset') {
-			value = item.dataset.value;
-		} else if (type === 'field') {
-			value = item.value;
-		} else {
-			value = item.dataset.value;
-		}
+    if (type === "dataset") {
+      value = item.dataset.value;
+    } else if (type === "field") {
+      value = item.value;
+    } else {
+      value = item.dataset.value;
+    }
 
-		if (item.classList.contains('js-required') && value === '') {
-			errorText(item, text);
-			errorForm = true;
-			return errorForm;
-		}
+    if (item.classList.contains("js-required") && value === "") {
+      errorText(item, text);
+      errorForm = true;
+      return errorForm;
+    }
 
-		// перевірка email
-		let pattern = /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i;
+    // перевірка email
+    let pattern = /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i;
 
-		if (item.classList.contains('js-email') && ! pattern.test(value)) {
-			errorText(item, errMessages.invalidEmail);
-			errorForm = true;
-			return errorForm;
-		}
-	}
+    if (item.classList.contains("js-email") && !pattern.test(value)) {
+      errorText(item, errMessages.invalidEmail);
+      errorForm = true;
+      return errorForm;
+    }
+  }
 
-
-	/* Текст помилки
+  /* Текст помилки
 	------------------------------------------------------- */
-	function errorText(input, text) {
-		let	el = document.createElement('div');
-		el.className = 'input-error';
-		el.textContent = text;
-		input.closest('.js-input').append(el);
-		input.classList.add('error');
-	}
+  function errorText(input, text) {
+    let el = document.createElement("div");
+    el.className = "input-error";
+    el.textContent = text;
+    input.closest(".js-input").append(el);
+    input.classList.add("error");
+  }
 }

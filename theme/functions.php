@@ -176,3 +176,126 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+
+/************************************************************************************
+*                                                                                   *
+*                                  CUSTOM CODE                                      *
+*                                                                                   *
+************************************************************************************/
+
+/**
+ * Add specific CSS classes based on the page
+ *
+ * Checks current page and adds corresponding CSS class to body
+ * for page-specific styling.
+ *
+ * @param array $classes Array of existing body classes
+ * @return array Modified array of body classes
+ */
+ function add_body_class($classes) {
+    if (is_page('main')) {
+        $classes[] = '';
+    } elseif (is_page('policy')) {
+        $classes[] = 'case-p';
+    } elseif (is_page('accesability')) {
+        $classes[] = 'case-p';
+    } elseif (is_single()) {
+        $classes[] = 'case-p';
+    }
+    return $classes;
+ }
+ add_filter('body_class', 'add_body_class');
+
+
+
+
+function enqueue_app_script() {
+    wp_enqueue_script('jammagency-app', get_template_directory_uri() . '/js/app.js', array(), null, true);
+
+    // Add type="module" attribute
+    add_filter('script_loader_tag', function($tag, $handle, $src) {
+        if ('jammagency-app' === $handle) {
+            return '<script type="module" src="' . esc_url($src) . '"></script>';
+        }
+        return $tag;
+    }, 10, 3);
+}
+add_action('wp_enqueue_scripts', 'enqueue_app_script');
+
+function enqueue_feedback_form_script() {
+    wp_enqueue_script('feedback-form-ajax', get_template_directory_uri() . '/js/feedback-form.js', array(), null, true);
+    wp_localize_script('feedback-form-ajax', 'feedbackFormAjax', array(
+        'ajax_url' => admin_url('admin-ajax.php')
+    ));
+
+    // Add type="module" attribute
+    add_filter('script_loader_tag', function($tag, $handle, $src) {
+        if ('feedback-form-ajax' === $handle) {
+            return '<script type="module" src="' . esc_url($src) . '"></script>';
+        }
+        return $tag;
+    }, 10, 3);
+}
+add_action('wp_enqueue_scripts', 'enqueue_feedback_form_script');
+
+
+function handle_feedback_form() {
+    // Verify the nonce for security
+    if (!isset($_POST['feedback_nonce']) || !wp_verify_nonce($_POST['feedback_nonce'], 'feedback_form_nonce')) {
+        wp_send_json_error(['message' => 'Invalid nonce']);
+        wp_die();
+    }
+
+    // Check for honeypot field (spam protection)
+    if (isset($_POST['honeypot']) && !empty($_POST['honeypot'])) {
+        wp_send_json_error(['message' => 'Spam detected']);
+        wp_die();
+    }
+
+    // Validate and sanitize the form data
+    $name = isset($_POST['name']) ? sanitize_text_field($_POST['name']) : '';
+    $phone = isset($_POST['phone']) ? sanitize_text_field($_POST['phone']) : '';
+    $email = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
+    $message = isset($_POST['message']) ? sanitize_textarea_field($_POST['message']) : '';
+
+    if ( empty($name) || empty($phone) || empty($email) || empty($message) ) {
+           wp_send_json_error(['message' => 'All fields are required.']);
+       }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo 'Invalid email address.';
+        wp_die();
+    }
+
+    // The email recipient (change this to your email)
+    $to = get_option('admin_email'); // or your own email
+    // $to = 'fancier@proton.me';
+    $subject = "Feedback from $name";
+
+    // The email content (HTML)
+    $email_content = '<strong>Name:</strong> ' . esc_html($name) . '<br>';
+    $email_content = '<strong>Phone:</strong> ' . esc_html($phone) . '<br>';
+    $email_content .= '<strong>Email:</strong> ' . esc_html($email) . '<br>';
+    $email_content .= '<strong>Message:</strong><br>' . nl2br(esc_html($message));
+
+    // Email headers for HTML content
+    $headers = array(
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . esc_html($name) . ' <' . esc_html($email) . '>',
+        'Reply-To: ' . esc_html($email)
+    );
+
+    $mail_sent = wp_mail($to, $subject, $email_content, $headers);
+
+    // Send the email
+    if ($mail_sent) {
+        wp_send_json_success(['message' => 'Your submission was successful!']);
+    } else {
+        wp_send_json_error(['message' => 'Submission failed. Please try again.']);
+    }
+
+    wp_die(); // Required to terminate properly
+}
+
+add_action('wp_ajax_send_feedback', 'handle_feedback_form'); // For logged-in users
+add_action('wp_ajax_nopriv_send_feedback', 'handle_feedback_form'); // For non-logged-in users

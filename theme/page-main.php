@@ -15,6 +15,7 @@
 	</span>
 </div> <!-- /.mainIntro -->
 
+
 <div class="box" id="hero">
 	<div class="box-scroll">
 		<div class="box-content">
@@ -205,7 +206,48 @@
 
 <section class="cases">
 	<div class="cases-grid">
-    	<div class="cases-item">
+    	<?php
+            $args = array(
+                'post_type' => 'post',
+                'post_status' => 'publish',
+                'posts_per_page' => 6,
+                'category_name' => 'project'
+            );
+            $query = new WP_Query($args);
+            if ($query->have_posts()) :
+        ?>
+        <?php while ($query->have_posts()) : $query->the_post(); ?>
+            <div class="cases-item">
+                <a href="<?php the_permalink(); ?>" class="cases-item-img">
+                    <?php
+                        if (has_post_thumbnail()) {
+                            the_post_thumbnail('full', array(
+                                'loading' => 'lazy',
+                                'alt' => get_the_title(),
+                                'width' => 600,
+                                'height' => 420
+                            ));
+                        } else {
+                            // If no featured image is set, you can use a placeholder image
+                            // echo '<img loading="lazy" src="' . get_template_directory_uri() . '/media/1728542268_755_m.webp" alt="Inner Power" width="600" height="420">';
+                        }
+                    ?>
+                </a>
+                <div class="cases-item-cat">
+                    <span>עיצוב לרשתות</span>
+                    <span>קופירייטינג</span>
+                </div>
+                <h4 class="cases-item-title">
+                    <a href="<?php the_permalink(); ?>">
+                        <?php the_title(); ?>
+                    </a>
+                </h4>
+                <p class="cases-item-description"><?php echo get_the_excerpt(); ?></p>
+            </div>
+        <?php endwhile; wp_reset_postdata(); ?>
+        <?php endif; ?>
+
+    	<!-- <div class="cases-item">
            	<a href="https://jammagency.com/inner-power" class="cases-item-img">
                 <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/media/1728542268_755_m.webp" alt="Inner Power" width="600" height="420">
            	</a>
@@ -269,10 +311,10 @@
       		</div>
            	<h4 class="cases-item-title"><a href="https://jammagency.com/liran-ashkenazi">Liran Ashkenazi</a></h4>
            	<p class="cases-item-description">אתר לחברת המשכיות עסקית</p>
-        </div>
+        </div> -->
 	</div>
 	<a href="https://jammagency.com/projects" class="btn">
- 			לכל הפרויקטים
+	    לכל הפרויקטים
 		<span class="btn-icon">
 			<svg width="35" height="19" viewBox="0 0 35 19" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path d="M25.8899 1.25586L25.6899 1.45586L33.6089 9.38886H0.878906V9.67186H33.5519L25.6889 17.5459L25.8889 17.7459L33.9209 9.70286L33.8899 9.67186H33.9489L34.1189 9.50186L34.0059 9.38886L33.9209 9.30186L25.8899 1.25586Z" stroke="white"/>
@@ -363,50 +405,5 @@
 		</div>
 	</div> <!-- /.wrap -->
 </section> <!-- /.feedback -->
-
-
-<div id="js-feedback" class="modal-box zoomOut">
-	<div class="modal modalTalk js-modal">
-		<div class="modal-body">
-			<a href="#" class="modal-close js-modal-close" data-id="#js-feedback">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18" stroke="#0D0F0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 6L18 18" stroke="#0D0F0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>			</a>
-			<div class="modalTalk-inner">
-				<div class="modalTalk-head">
-				<img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/img/hellooo.svg" alt="" width="106" height="103" class="modalTalk-hellooo">
-					<h2 class="modalTalk-title">Hellooo… It’s me</h2>
-				</div>
-				<div class="modalTalk-body">
-					<div class="modalTalk-form js-form">
-						<div class="input js-input">
-							<input type="text" name="name" class="input-field js-required" placeholder="שם">
-						</div>
-						<div class="input js-input">
-							<input type="tel" name="phone" class="input-field js-required" placeholder="נייד">
-						</div>
-						<div class="input js-input">
-							<input type="email" name="email" class="input-field js-required js-email" placeholder="אימייל">
-						</div>
-						<div class="input js-input">
-							<div class="input-sizer">
-								<textarea name="message" rows="2" oninput="this.parentNode.dataset.value = this.value" class="input-text js-required" placeholder="על מה נדבר?"></textarea>
-							</div>
-						</div>
-						<button class="btn2 js-send" data-route="https://jammagency.com/feedback">שליחה</button>
-					</div>
-					<div class="modalTalk-contacts">
-						<ul>
-							<li>
-								<a href="tel:+972509913755">972-509913755+</a>
-							</li>
-							<li>
-								<a href="mailto:hello@jammagency.com">hello@jammagency.com</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
 <?php get_footer(); ?>
