@@ -234,8 +234,7 @@
                     ?>
                 </a>
                 <div class="cases-item-cat">
-                    <span>עיצוב לרשתות</span>
-                    <span>קופירייטינג</span>
+                    <?php the_subtitle(); ?>
                 </div>
                 <h4 class="cases-item-title">
                     <a href="<?php the_permalink(); ?>">
@@ -246,72 +245,6 @@
             </div>
         <?php endwhile; wp_reset_postdata(); ?>
         <?php endif; ?>
-
-    	<!-- <div class="cases-item">
-           	<a href="https://jammagency.com/inner-power" class="cases-item-img">
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/media/1728542268_755_m.webp" alt="Inner Power" width="600" height="420">
-           	</a>
-           	<div class="cases-item-cat">
-          		<span>עיצוב לרשתות</span>
-          		<span>קופירייטינג</span>
-           	</div>
-           	<h4 class="cases-item-title"><a href="https://jammagency.com/inner-power">Inner Power</a></h4>
-           	<p class="cases-item-description">אתר תדמית לסטודיו כושר</p>
-        </div>
-        <div class="cases-item">
-           	<a href="https://jammagency.com/at-yafa" class="cases-item-img">
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/media/1728542300_407_m.webp" alt="At Yafa" width="600" height="420">
-           	</a>
-           	<div class="cases-item-cat">
-     			<span>עיצוב ובניית אתר</span>
-      		</div>
-           	<h4 class="cases-item-title"><a href="https://jammagency.com/at-yafa">At Yafa</a></h4>
-           	<p class="cases-item-description">אתר בלוגה בתחום לייפסלייט</p>
-        </div>
-        <div class="cases-item">
-           	<a href="https://jammagency.com/try-it" class="cases-item-img">
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/media/1728542339_301_m.webp" alt="TRY IT" width="600" height="420">
-           	</a>
-           	<div class="cases-item-cat">
-          		<span>קופירייטינג</span>
-          		<span>עיצוב ובניית אתר</span>
-           	</div>
-           	<h4 class="cases-item-title"><a href="https://jammagency.com/try-it">TRY IT</a></h4>
-           	<p class="cases-item-description">אתר תדמית לסוכנות טיולים</p>
-        </div>
-    	<div class="cases-item">
-           	<a href="https://jammagency.com/wow-how" class="cases-item-img">
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/media/1728542389_581_m.webp" alt="WOW HOW" width="600" height="420">
-           	</a>
-           	<div class="cases-item-cat">
-     			<span>קופירייטינג</span>
-     			<span>עיצוב ובניית אתר</span>
-      		</div>
-           	<h4 class="cases-item-title"><a href="https://jammagency.com/wow-how">WOW HOW</a></h4>
-           	<p class="cases-item-description">דף נחיתה למכירת קורסים</p>
-        </div>
-    	<div class="cases-item">
-           	<a href="https://jammagency.com/maayan-studio" class="cases-item-img">
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/media/1728542435_563_m.webp" alt="Maayan Studio" width="600" height="420">
-           	</a>
-           	<div class="cases-item-cat">
-     			<span>קופירייטינג</span>
-     			<span>עיצוב ובניית אתר</span>
-      		</div>
-           	<h4 class="cases-item-title"><a href="https://jammagency.com/maayan-studio">Maayan Studio</a></h4>
-           	<p class="cases-item-description">אתר לסטודיו כושר</p>
-        </div>
-    	<div class="cases-item">
-           	<a href="https://jammagency.com/liranashkenazi" class="cases-item-img">
-                <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/media/1730116540_117_m.webp" alt="Liran Ashkenazi" width="600" height="420">
-           	</a>
-           	<div class="cases-item-cat">
-     			<span>קופירייטינג</span>
-     			<span>עיצוב ובניית אתר</span>
-      		</div>
-           	<h4 class="cases-item-title"><a href="https://jammagency.com/liran-ashkenazi">Liran Ashkenazi</a></h4>
-           	<p class="cases-item-description">אתר לחברת המשכיות עסקית</p>
-        </div> -->
 	</div>
 	<a href="https://jammagency.com/projects" class="btn">
 	    לכל הפרויקטים

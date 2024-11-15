@@ -105,7 +105,7 @@ export function SideModal() {
       self.closeSideModal($modalOpen); //закриваємо модальне вікно
     }
 
-    // widthScrollOpenModal(); //додаємо ширину скролла при відкритті модального вікна
+    widthScrollOpenModal(); //додаємо ширину скролла при відкритті модального вікна
     document.querySelector(data.id).classList.add("open");
     const maskClass = data.side === "menu" ? "menu-open" : "modal-open";
     page.classList.add(maskClass);
@@ -114,7 +114,7 @@ export function SideModal() {
   /* Закрити модальне вікно
 	------------------------------------------------------- */
   self.closeSideModal = ($modal) => {
-    // widthScrollCloseModal(); //забираємо ширину скролла при закритті модального вікна
+    widthScrollCloseModal(); //забираємо ширину скролла при закритті модального вікна
     page.classList.remove("modal-open", "menu-open");
     $modal.classList.remove("open");
 

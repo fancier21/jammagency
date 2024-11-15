@@ -70,7 +70,7 @@ export function ModalWindow() {
         $modal.classList.add("open", "zoomIn");
       }, 300);
     } else {
-      // widthScrollOpenModal(); //додаємо ширину скролла при відкритті модального вікна
+      widthScrollOpenModal(); //додаємо ширину скролла при відкритті модального вікна
       page.classList.add("modal-open");
       $modal.classList.remove("zoomOut");
       $modal.classList.add("open", "zoomIn");
@@ -80,7 +80,7 @@ export function ModalWindow() {
   /* Закрити модальне вікно
 	------------------------------------------------------- */
   self.closeModalWindow = ($modal) => {
-    // widthScrollCloseModal(); //забираємо ширину скролла при закритті модального вікна
+    widthScrollCloseModal(); //забираємо ширину скролла при закритті модального вікна
     helperSlider(); // при закритті вікна очищаємо слайдер від слайдів
     page.classList.remove("modal-open");
     $modal.classList.replace("zoomIn", "zoomOut");
@@ -97,7 +97,7 @@ export function ModalWindow() {
     let pageWidth = document.documentElement.clientWidth;
 
     if (winWidth > pageWidth) {
-      // page.style.paddingRight = scrollWidth + "px";
+      page.style.paddingRight = scrollWidth + "px";
     }
   }
 

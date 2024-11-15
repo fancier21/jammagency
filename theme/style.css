@@ -225,7 +225,7 @@ body {
     background: #242424;
 }
 
-.page:after {
+#layout:after {
     content: "";
     position: fixed;
     z-index: 100001;
@@ -238,19 +238,16 @@ body {
     transition: opacity 0.4s ease-out 0s;
 }
 
-.page.modal-open,
-.page.menu-open {
+#layout.modal-open,
+#layout.menu-open {
     overflow: hidden;
 }
 
-.page.modal-open:after,
-.page.menu-open:after {
+#layout.modal-open:after,
+#layout.menu-open:after {
     height: 100%;
     width: 100%;
     opacity: 1;
-}
-
-#page {
 }
 
 .wrap {
@@ -2542,5 +2539,28 @@ textarea::placeholder {
 
     .feedback2 .btn-icon svg {
         width: 16px;
+    }
+}
+
+.policy,
+.accessibility {
+    direction: rtl;
+    .wrap {
+        padding: 15px;
+        padding-bottom: 40px;
+
+        h2,
+        h3 {
+            font-weight: bold;
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .policy,
+    .accessibility {
+        .wrap {
+            padding-bottom: 40px;
+        }
     }
 }
