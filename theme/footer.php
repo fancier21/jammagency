@@ -11,7 +11,7 @@
 
 ?>
 
-    	<footer id="colophon" class="site-footer">
+    	<footer id="colophon" class="site-footer <?php if (is_page('policy') || is_page('accessibility')) { echo 'site-footer-p'; } ?>">
     		<div class="wrap">
     			<div class="footer-col">
     				<div class="footer-popup js-modal-open" data-id="#js-feedback">יצירת קשר</div>

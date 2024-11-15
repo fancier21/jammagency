@@ -193,9 +193,7 @@ if ( defined( 'JETPACK__VERSION' ) ) {
  * @return array Modified array of body classes
  */
  function add_body_class($classes) {
-    if (is_front_page()) {
-        echo ' id="layout"';
-    } elseif (is_page('policy')) {
+    if (is_page('policy')) {
         $classes[] = 'case-p';
     } elseif (is_page('accessibility')) {
         $classes[] = 'case-p';

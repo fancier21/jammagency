@@ -225,7 +225,7 @@ body {
     background: #242424;
 }
 
-#layout:after {
+body:after {
     content: "";
     position: fixed;
     z-index: 100001;
@@ -238,13 +238,13 @@ body {
     transition: opacity 0.4s ease-out 0s;
 }
 
-#layout.modal-open,
-#layout.menu-open {
+body.modal-open,
+body.menu-open {
     overflow: hidden;
 }
 
-#layout.modal-open:after,
-#layout.menu-open:after {
+body.modal-open:after,
+body.menu-open:after {
     height: 100%;
     width: 100%;
     opacity: 1;
@@ -2547,7 +2547,7 @@ textarea::placeholder {
     direction: rtl;
     .wrap {
         padding: 15px;
-        padding-bottom: 40px;
+        padding-bottom: 80px;
 
         h2,
         h3 {
@@ -2560,7 +2560,11 @@ textarea::placeholder {
     .policy,
     .accessibility {
         .wrap {
-            padding-bottom: 40px;
+            padding-bottom: 80px;
         }
     }
+}
+
+.site-footer-p {
+    padding-top: 30px;
 }
